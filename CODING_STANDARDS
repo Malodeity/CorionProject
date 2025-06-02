@@ -1,0 +1,56 @@
+## ✅ Python Coding Standards
+
+### 🧱 1. File Naming & Structure
+- Use lowercase file names with underscores: `main.py`, `database.py`
+- One logical unit per file (class or service)
+
+### 🔠 2. Variable & Function Naming
+- `snake_case` for variables and function names: `fetch_stock_data()`
+- `PascalCase` for class names: `PDFReport`
+
+### 🧾 3. Commenting & Docstrings
+- Use `#` for short explanations inline
+- Use triple-quoted `"""` docstrings for functions and classes
+
+```python
+# Load stock data
+
+def fetch_stock_data():
+    """
+    Fetch records from stock_market_data based on company.
+    """
+    pass
+```
+
+### 📐 4. Formatting (PEP 8)
+- 4 spaces per indentation level
+- Max 79 characters per line
+- Two blank lines between top-level functions and classes
+
+### ❌ 5. Anti-Patterns to Avoid
+- No hardcoding sensitive data — use `.env`
+- No long functions — break them into smaller pieces
+- No overly generic exception handling (unless top-level)
+
+### 🔒 6. Environment Handling
+- Always use `python-dotenv` to load `.env`
+- Keep `.env` and `__pycache__` excluded from Git
+
+### 🧪 7. Testing & Modularity
+- Prefer returning data over printing inside functions
+- Use dependency injection to make logic testable
+- Keep functions short, reusable, and descriptive
+
+### ✨ 8. Design Pattern Usage (Unit 12)
+| Pattern       | Where Used           | Purpose                            |
+|---------------|----------------------|------------------------------------|
+| Factory       | `PostgresClientFactory` | Manage environment-based setup     |
+| Repository    | `CompanyRepository`     | Encapsulate SQL access             |
+| Strategy      | `StrategyContext`       | Plug in analysis methods           |
+| Singleton     | `PDFReport`             | One instance per report session    |
+
+---
+
+Following these rules ensures consistency, readability, and a professional development standard for all contributors and learners.
+
+Happy coding! 💡
