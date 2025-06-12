@@ -12,10 +12,7 @@
 # - Learn to architect modular apps with pattern-based structure
 # ======================================================
 
-from database import SupabaseClientFactory, CompanyRepository, is_valid_symbol
-from models import Company, StockRecord
-from utils import calculate_average_close, StrategyContext, filter_high_volume, sort_by_close
-from report_generator import PDFReport
+from database import CSVClientFactory, CompanyRepository, is_valid_symbol
 import tkinter as tk
 from tkinter import simpledialog
 
@@ -49,7 +46,7 @@ if __name__ == "__main__":
     symbol = simpledialog.askstring("Input", "Enter stock symbol (e.g. AAPL):")
 
     # DI: Setup repository and service manually
-    client = SupabaseClientFactory.get_client()
+    client = CSVClientFactory.get_client()
     repository = CompanyRepository(client)
     service = StockAnalysisService(repository)
 

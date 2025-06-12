@@ -33,7 +33,14 @@ class PostgresClientFactory:
     def get_connection():
         # TODO: Raise exception if DATABASE_URL is missing
         # TODO: Return a psycopg2 connection using DATABASE_URL
-        pass
+        if not DATABASE_URL:
+            raise ValueError("DATABASE_URL is missing")
+        try:
+            connection = psycopg2.connect(DATABASE_URL)
+            return connection
+        except psycopg2.Error as e:
+            raise ConnectionError(f"Failed to connect to the database: {e}")
+    pass
 
 def is_valid_symbol(symbol):
     """

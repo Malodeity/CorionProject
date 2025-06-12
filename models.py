@@ -13,6 +13,10 @@
 class Company:
     def __init__(self, symbol, name, industry, market_cap):
         # TODO: Assign parameters to instance variables
+        self.symbol = symbol
+        self.name = name
+        self.industry = industry
+        self.market_cap = market_cap
         pass
 
     def __str__(self):
