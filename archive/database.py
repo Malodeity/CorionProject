@@ -1,5 +1,5 @@
 # ======================================================
-# 📄 FILE: database.py
+# 📄 FILE: pipeline.py
 # PURPOSE: Handle PostgreSQL connection and data retrieval
 # EXPECTED:
 # - Load DATABASE_URL from .env
