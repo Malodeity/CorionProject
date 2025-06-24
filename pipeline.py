@@ -112,3 +112,29 @@ class CompanyRepository:
         except Exception as e:
             raise RuntimeError(f"Failed to query stock data by company: {e}")
 
+        
+def load_and_prepare_data(stock_data_path, company_info_path):
+    """
+    Skeleton for loading and preparing stock and company data.
+    
+    :param stock_data_path: Path to the stock market data CSV.
+    :param company_info_path: Path to the company info CSV.
+    :return: Prepared and merged DataFrame.
+    """
+     #Either you choose a company you want to focus on or you choose top 3 companies
+    # TODO: Load both stock_market_data.csv and company_info.csv as DataFrames
+
+    # TODO: Sort stock data by Name and Date to prepare for rolling/shift operations
+
+    # TODO: Calculate daily return using pct_change()
+
+    # TODO: Calculate 5-day rolling volatility (standard deviation of daily returns)
+
+    # TODO: Calculate 5-day future return (shift -5 and calculate percent change)
+
+    # TODO: Validate rows with missing values in engineered columns
+
+    # TODO: Merge Market_Cap from company_info using Name = Symbol
+
+    # TODO: Return the cleaned, merged DataFrame
+    pass 

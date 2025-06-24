@@ -17,6 +17,8 @@ import tkinter as tk
 from tkinter import simpledialog
 from models import Company, StockRecord
 from utils import StrategyContext, calculate_average_close, filter_high_volume, sort_by_close
+from pipeline import load_and_prepare_data
+from ml_model import ReturnPredictor
 
 
 class StockAnalysisService:
@@ -92,3 +94,11 @@ if __name__ == "__main__":
 
     if symbol:
         service.run_report_for_symbol(symbol.strip().upper())
+        
+        # Machine Learning Model Operations
+    # TODO: Load and prepare the data by calling the pipeline function
+    # TODO: Instantiate and train the prediction model
+    # TODO: Select last N rows to simulate “new” data for prediction
+    # TODO: Run predictions on these rows
+    # TODO: Add predictions to DataFrame and save results to CSV
+    pass
