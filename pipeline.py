@@ -113,7 +113,7 @@ class CompanyRepository:
             raise RuntimeError(f"Failed to query stock data by company: {e}")
 
         
-def load_and_prepare_data(stock_data_path, company_info_path):
+def load_and_prepare_data(symbol):
     """
     Skeleton for loading and preparing stock and company data.
     
@@ -124,17 +124,38 @@ def load_and_prepare_data(stock_data_path, company_info_path):
      #Either you choose a company you want to focus on or you choose top 3 companies
     # TODO: Load both stock_market_data.csv and company_info.csv as DataFrames
 
+    if is_valid_symbol(symbol):
+        print(f"{symbol} is a valid symbol")
+
+    # Get CSV client and repositories
+    client = CSVClientFactory.get_client()
+    repo = CompanyRepository(client)
+
+    # Get company record
+    company_info = repo.get_company_by_symbol(symbol)
+    company_name = company_info["Company Name"]
+
+    # Get stock data for this company
+    stock_df = repo.get_stock_data_by_company(company_name)
+
     # TODO: Sort stock data by Name and Date to prepare for rolling/shift operations
+    stock_df = stock_df.sort_values(by=["Company Name", "Date"]).copy()
+    stock_df["Date"] = pd.to_datetime(stock_df["Date"])
 
     # TODO: Calculate daily return using pct_change()
+    stock_df["Daily Return"] = stock_df["Close"].pct_change()
 
     # TODO: Calculate 5-day rolling volatility (standard deviation of daily returns)
+    stock_df["5D Volatility"] = stock_df["Daily Return"].rolling(window=5).std()
 
     # TODO: Calculate 5-day future return (shift -5 and calculate percent change)
+    stock_df["5D Future Return"] = stock_df["Close"].shift(-5).pct_change(periods=5, fill_method=None)
 
     # TODO: Validate rows with missing values in engineered columns
+    stock_df = stock_df.dropna(subset=["Daily Return", "5D Volatility", "5D Future Return"])
 
     # TODO: Merge Market_Cap from company_info using Name = Symbol
+    stock_df["Market Cap"] = company_info["Market Cap"]
 
     # TODO: Return the cleaned, merged DataFrame
-    pass 
+    return stock_df

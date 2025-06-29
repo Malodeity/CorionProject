@@ -11,6 +11,7 @@
 # OUTCOME:
 # - Learn to architect modular apps with pattern-based structure
 # ======================================================
+import pandas as pd
 
 from pipeline import CSVClientFactory, CompanyRepository, is_valid_symbol
 import tkinter as tk
@@ -52,14 +53,14 @@ class StockAnalysisService:
 
         # Get timeseries of stock data
         stock_data_timeseries = self.repo.get_stock_data_by_company(company_name=company_by_symbol["Company Name"])
-        print(stock_data_timeseries.head(3))
+        # print(stock_data_timeseries.head(3))
 
         # Convert row to dict
         record_data = stock_data_timeseries.iloc[0].to_dict()
 
         # Create StockRecord object
         record = StockRecord(record_data)
-        print(record.summary())
+        # print(record.summary())
 
         # TODO: Filter/sort if needed, then calculate average
         # Using StrategyContext to calculate average close
@@ -86,6 +87,7 @@ if __name__ == "__main__":
     root = tk.Tk()
     root.withdraw()
     symbol = simpledialog.askstring("Input", "Enter stock symbol (e.g. AAPL):")
+    symbol = symbol.strip().upper()
 
     # DI: Setup repository and service manually
     client = CSVClientFactory.get_client()
@@ -93,12 +95,29 @@ if __name__ == "__main__":
     service = StockAnalysisService(repository)
 
     if symbol:
-        service.run_report_for_symbol(symbol.strip().upper())
+        service.run_report_for_symbol(symbol)
         
-        # Machine Learning Model Operations
+    # Machine Learning Model Operations
     # TODO: Load and prepare the data by calling the pipeline function
+    stock_df = load_and_prepare_data(symbol)
+
     # TODO: Instantiate and train the prediction model
+    predictor = ReturnPredictor()
+    predictor.train(stock_df)
+
     # TODO: Select last N rows to simulate “new” data for prediction
+    prediction_input = stock_df[["Daily Return", "5D Volatility", "Market Cap"]].tail(5)
+
     # TODO: Run predictions on these rows
+    predictions = predictor.predict(prediction_input)
+
+    print()
+    print("Sample Predictions:")
+    for i, pred in enumerate(predictions, 1):
+        print(f"Day {i}: Predicted 5D Future Return = {round(pred, 4)}")
+
     # TODO: Add predictions to DataFrame and save results to CSV
+    predictions_df = pd.DataFrame(predictions)
+    predictions_df.to_csv('Predictions Result.csv', index=False)
+
     pass
